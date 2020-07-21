@@ -5,6 +5,10 @@
 ----
 
 ## Description
+## ASYNC INN
+----------
+This is a ASP.NET web application where we have data stored in different databases and we use different api calls to get the information from the database.
+## ERD 
 Shows the connection of databases and their relations between them.
 Async Inn ERD Explained
 
@@ -64,6 +68,7 @@ Double click on the ```Async-Inn``` directory.
 ---
 
 ### Change Log
+1.2 *Adds ASP.NET web application* - July 21,2020
 1.1: *Added README* - July 20,2020  
 
 
