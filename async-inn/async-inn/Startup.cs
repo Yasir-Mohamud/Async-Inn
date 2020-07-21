@@ -17,6 +17,9 @@ namespace async_inn
     {
         public IConfiguration Configuration { get; }
 
+
+        // the appsettings.json, by default, is our "Configurations" for the app. 
+        // Set ourselves up for Dependency Injection
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,9 +28,16 @@ namespace async_inn
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // this is where all of our dependencies are going to live. 
+            // Enable the use of using controllers within the MVC convention
             services.AddControllers();
+
+            // Register with the app, that the database exists, and what options to use for it. 
             services.AddDbContext<AsyncInnDbContext>(options =>
             {
+                // Install-Package Microsoft.EntityFrameworkCore.SqlServer
+                // Connection String = location where something lives. In our case, it's where our DB lives. 
+                // connection string contains the location, username, pw of your sql server...with our sql database directly.
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
         }
@@ -44,6 +54,9 @@ namespace async_inn
 
             app.UseEndpoints(endpoints =>
             {
+                // Set our default routing for our request within the API application
+                // By default, our convention is {site}/[controller]/[action]/[id]
+                // id is not required, allowing it to be nullable
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }

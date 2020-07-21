@@ -85,6 +85,11 @@ namespace async_inn.Data
                 );
         }
 
+        // to create an intial migration
+        // add-migration intial
+        // Install-Package Microsoft.EntityFrameworkCore.Tools
+        // add-migration {migrationName}
+
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
