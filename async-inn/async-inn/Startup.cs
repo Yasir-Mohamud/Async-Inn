@@ -10,6 +10,8 @@ using Microsoft.Extensions.Hosting;
 using async_inn.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
+using async_inn.Models.Services;
+using async_inn.Models.Interfaces;
 
 namespace async_inn
 {
@@ -40,6 +42,10 @@ namespace async_inn
                 // connection string contains the location, username, pw of your sql server...with our sql database directly.
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            //Register dependence injection services
+            services.AddTransient<IHotel,HotelRepository>();
+            services.AddTransient<IRoom, RoomRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
