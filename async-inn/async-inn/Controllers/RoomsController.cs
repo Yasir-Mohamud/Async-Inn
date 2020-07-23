@@ -13,6 +13,8 @@ namespace async_inn.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
+    // our constructor is bringing in a reference to our db
     public class RoomsController : ControllerBase
     {
         private readonly IRoom _room;
