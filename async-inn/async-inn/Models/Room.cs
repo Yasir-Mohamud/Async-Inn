@@ -12,4 +12,7 @@ namespace async_inn.Models
         public string Name { get; set; }
         public int Layout { get; set; }
     }
+    
+   
+        
 }

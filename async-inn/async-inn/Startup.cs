@@ -32,6 +32,13 @@ namespace async_inn
         {
             // this is where all of our dependencies are going to live. 
             // Enable the use of using controllers within the MVC convention
+            // Install - Package Microsoft.AspNetCore.Mvc.NewtonsoftJson - Version 3.1.2
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
+
+            // this is where all of our dependencies are going to live. 
+            // Enable the use of using controllers within the MVC convention
             services.AddControllers();
 
             // Register with the app, that the database exists, and what options to use for it. 

@@ -52,7 +52,7 @@ namespace async_inn.Controllers
 
             var updatedAmenity = await _amenity.Update(amenity);
 
-            return Ok(up);
+            return Ok(updatedAmenity);
         }
 
         // POST: api/Amenities
