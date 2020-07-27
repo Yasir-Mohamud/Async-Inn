@@ -3,6 +3,7 @@ using async_inn.Models.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace async_inn.Models.Services
@@ -31,19 +32,23 @@ namespace async_inn.Models.Services
             // Saves Changes
             await _context.SaveChangesAsync();
 
-            
+
         }
 
         public async Task<List<Amenity>> GetAmenities()
         {
-           
+
             var amenity = await _context.Amenities.ToListAsync();
-            return amenity;   
+            return amenity;
         }
 
         public async Task<Amenity> GetAmenity(int id)
         {
             Amenity amenity = await _context.Amenities.FindAsync(id);
+            var roomAmenities = await _context.RoomAmenities.Where(x => x.AmenityId == id)
+                                                            .Include(x => x.room)
+                                                            .ToListAsync();
+            amenity.RoomAmenities = roomAmenities;
             return amenity;
         }
 

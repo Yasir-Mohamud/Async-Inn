@@ -12,6 +12,7 @@ namespace async_inn.Models
         public int AmenityId { get; set; }
 
         // Navigation props
+        // references to the composite key
         public Room room { get; set; }
         public Amenity amenity { get; set; }
     }

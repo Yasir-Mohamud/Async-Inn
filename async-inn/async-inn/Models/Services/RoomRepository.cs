@@ -35,6 +35,11 @@ namespace async_inn.Models.Services
         public async Task<Room> GetRoom(int id)
         {
             Room room = await _context.Rooms.FindAsync(id);
+            // includes all of the amenities in that room.
+            var roomAmenities = await _context.RoomAmenities.Where(x => x.RoomId == id)
+                                                      .Include(x => x.amenity)
+                                                     .ToListAsync();
+            room.RoomAmenities = roomAmenities;
             return room;
 
         }
@@ -42,6 +47,7 @@ namespace async_inn.Models.Services
         public async Task<List<Room>> GetRooms()
         {
             var room = await _context.Rooms.ToListAsync();
+      
             return room;
         }
 
@@ -54,7 +60,13 @@ namespace async_inn.Models.Services
             return room;
         }
 
-        public async Task AddRoomAmenity(int roomId, int amenityId)
+        /// <summary>
+        /// Adds an amenity to a room
+        /// </summary>
+        /// <param name="roomId"> room foreign key</param>
+        /// <param name="amenityId">amenity foreign key</param>
+        /// <returns> saves changes to db </returns>
+        public async Task AddAmenity(int roomId, int amenityId)
         {
             RoomAmenity roomAmenity = new RoomAmenity()
             {
@@ -65,12 +77,19 @@ namespace async_inn.Models.Services
                 await _context.SaveChangesAsync();
         }
 
-        public async Task RemoveRoomAmenity(int roomId, int amenityId)
+
+        /// <summary>
+        /// Removes an amenity to a room
+        /// </summary>
+        /// <param name="roomId"> identifier for room</param>
+        /// <param name="amenityId"> identifier for amenity</param>
+        /// <returns> Task of completion  </returns>
+        public async Task RemoveAmenity(int roomId, int amenityId)
         {
-            var result = await _context.RoomAmenities.FirstOrDefaultAsync(x => x.RoomId == roomId && x.AmenityId == amenityId);
+            var result =  await _context.RoomAmenities.FirstOrDefaultAsync(x => x.RoomId == roomId && x.AmenityId == amenityId );
             _context.Entry(result).State = EntityState.Deleted;
             await _context.SaveChangesAsync();
-
         }
+
     }
 }

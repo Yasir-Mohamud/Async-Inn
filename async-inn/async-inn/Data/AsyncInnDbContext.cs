@@ -14,7 +14,9 @@ namespace async_inn.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+           // Tells DB that HotelRoom has a combination composite key of HotelID and RoomNumber
             modelBuilder.Entity<HotelRoom>().HasKey(x => new { x.HotelId, x.RoomNumber });
+            // Tells DB that RoomAmenity has a combination composite key of RoomID and AmenityId
             modelBuilder.Entity<RoomAmenity>().HasKey(x => new { x.RoomId, x.AmenityId });
             modelBuilder.Entity<Hotel>().HasData(
                 new Hotel
