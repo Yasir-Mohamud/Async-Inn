@@ -67,14 +67,12 @@ namespace async_inn.Controllers
         }
 
         // DELETE: api/Hotels/5
-        [HttpDelete("{id}")]
+        [HttpDelete, Route("/api/Hotels/{hotelId}")]
         public async Task<ActionResult> DeleteHotel(int id)
         {
             await _hotel.Delete(id);
-            return NoContent();
-            
+            return NoContent();      
         }
-
       
     }
 }

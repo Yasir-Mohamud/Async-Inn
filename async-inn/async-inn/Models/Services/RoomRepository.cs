@@ -15,6 +15,12 @@ namespace async_inn.Models.Services
         {
             _context = context;
         }
+
+        /// <summary>
+        /// Creates a room
+        /// </summary>
+        /// <param name="room"> room object</param>
+        /// <returns> task completion </returns>
         public async Task<Room> Create(Room room)
         {
             // adds to the database
@@ -24,14 +30,25 @@ namespace async_inn.Models.Services
             return room;
         }
 
+
+        /// <summary>
+        /// Deletes selected room
+        /// </summary>
+        /// <param name="id">room identifier</param>
+        /// <returns> task completion </returns>
         public async Task Delete(int id)
         {
             Room room = await GetRoom(id);
             _context.Entry(room).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
             await _context.SaveChangesAsync();
-
         }
 
+
+        /// <summary>
+        /// Gets a single room
+        /// </summary>
+        /// <param name="id"> room identifier</param>
+        /// <returns> The room with all its amenities</returns>
         public async Task<Room> GetRoom(int id)
         {
             Room room = await _context.Rooms.FindAsync(id);
@@ -44,6 +61,11 @@ namespace async_inn.Models.Services
 
         }
 
+
+        /// <summary>
+        /// Gets all the rooms
+        /// </summary>
+        /// <returns> List of all rooms</returns>
         public async Task<List<Room>> GetRooms()
         {
             var room = await _context.Rooms.ToListAsync();
@@ -52,7 +74,11 @@ namespace async_inn.Models.Services
         }
 
 
-
+        /// <summary>
+        /// Updates room
+        /// </summary>
+        /// <param name="room"> room object</param>
+        /// <returns>the updated room object</returns>
         public async Task<Room> Update(Room room)
         {
             _context.Entry(room).State = EntityState.Modified;
@@ -66,7 +92,7 @@ namespace async_inn.Models.Services
         /// <param name="roomId"> room foreign key</param>
         /// <param name="amenityId">amenity foreign key</param>
         /// <returns> saves changes to db </returns>
-        public async Task AddAmenity(int roomId, int amenityId)
+        public async Task AddAmenityToRoom(int roomId, int amenityId)
         {
             RoomAmenity roomAmenity = new RoomAmenity()
             {
@@ -84,7 +110,7 @@ namespace async_inn.Models.Services
         /// <param name="roomId"> identifier for room</param>
         /// <param name="amenityId"> identifier for amenity</param>
         /// <returns> Task of completion  </returns>
-        public async Task RemoveAmenity(int roomId, int amenityId)
+        public async Task RemoveAmenityFromRoom(int roomId, int amenityId)
         {
             var result =  await _context.RoomAmenities.FirstOrDefaultAsync(x => x.RoomId == roomId && x.AmenityId == amenityId );
             _context.Entry(result).State = EntityState.Deleted;

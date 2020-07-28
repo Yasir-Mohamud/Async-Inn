@@ -1,11 +1,12 @@
-﻿using System;
+﻿using async_inn.Models.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace async_inn.Models
 {
-    public class HotelRoom
+    public class HotelRoom 
     {
         public int HotelId { get; set; }
         public int RoomId { get; set; }
@@ -17,6 +18,6 @@ namespace async_inn.Models
         
         public Hotel hotel { get; set; }
         public Room room { get; set; }
-
+       
     }
 }

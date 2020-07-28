@@ -70,7 +70,7 @@ namespace async_inn.Controllers
         // Mode Binding
         public async Task<IActionResult> AddAmenityToRoom(int roomId, int amenityId)
         {
-            await _room.AddAmenity(roomId, amenityId);
+            await _room.AddAmenityToRoom(roomId, amenityId);
             return Ok();
         }
 
@@ -78,7 +78,7 @@ namespace async_inn.Controllers
         [Route("{roomId}/{amenityId}")]
         public async Task<IActionResult> RemoveAmenityFromRome(int roomId, int amenityId)
         {
-            await _room.RemoveAmenity(roomId, amenityId);
+            await _room.RemoveAmenityFromRoom(roomId, amenityId);
             return Ok();
         }
 

@@ -16,6 +16,12 @@ namespace async_inn.Models.Services
         {
             _context = context;
         }
+
+        /// <summary>
+        /// Creates an amenity
+        /// </summary>
+        /// <param name="amenity">amenity object </param>
+        /// <returns>task completion</returns>
         public async Task<Amenity> Create(Amenity amenity)
         {
             _context.Entry(amenity).State = Microsoft.EntityFrameworkCore.EntityState.Added;
@@ -24,6 +30,11 @@ namespace async_inn.Models.Services
             return amenity;
         }
 
+        /// <summary>
+        /// deletes selected amenity 
+        /// </summary>
+        /// <param name="id">amenity identifier</param>
+        /// <returns>task completion </returns>
         public async Task Delete(int id)
         {
             Amenity amenity = await GetAmenity(id);
@@ -31,17 +42,23 @@ namespace async_inn.Models.Services
             _context.Entry(amenity).State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
             // Saves Changes
             await _context.SaveChangesAsync();
-
-
         }
 
+        /// <summary>
+        /// Gets all the amenities
+        /// </summary>
+        /// <returns> list of amenities </returns>
         public async Task<List<Amenity>> GetAmenities()
         {
-
             var amenity = await _context.Amenities.ToListAsync();
             return amenity;
         }
 
+        /// <summary>
+        /// Gets a single amenity by id
+        /// </summary>
+        /// <param name="id">amenity identifier</param>
+        /// <returns>task completion</returns>
         public async Task<Amenity> GetAmenity(int id)
         {
             Amenity amenity = await _context.Amenities.FindAsync(id);
@@ -52,6 +69,11 @@ namespace async_inn.Models.Services
             return amenity;
         }
 
+        /// <summary>
+        /// updates amenity
+        /// </summary>
+        /// <param name="amenity"> amenity object</param>
+        /// <returns>task completion </returns>
         public async Task<Amenity> Update(Amenity amenity)
         {
             _context.Entry(amenity).State = EntityState.Modified;
