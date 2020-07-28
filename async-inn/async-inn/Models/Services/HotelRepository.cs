@@ -16,6 +16,12 @@ namespace async_inn.Models.Services
         {
             _context = context;
         }
+
+        /// <summary>
+        /// Creates hotel 
+        /// </summary>
+        /// <param name="hotel"> hotel object </param>
+        /// <returns> task completion </returns>
         public async Task<Hotel> Create(Hotel hotel)
         {
             // adds to the database
@@ -26,6 +32,12 @@ namespace async_inn.Models.Services
             return hotel;
         }
 
+
+        /// <summary>
+        /// Deletes an hotel
+        /// </summary>
+        /// <param name="id">hotel identifier</param>
+        /// <returns>task completion</returns>
         public async Task Delete(int id)
         {
             Hotel hotel = await GetHotel(id);
@@ -33,6 +45,12 @@ namespace async_inn.Models.Services
             await _context.SaveChangesAsync();
         }
 
+
+        /// <summary>
+        /// gets a single hotel
+        /// </summary>
+        /// <param name="id">hotel identifier</param>
+        /// <returns>task completion </returns>
         public async Task<Hotel> GetHotel(int id)
         {
             // looks into the db and finds the object with the same id 
@@ -41,12 +59,21 @@ namespace async_inn.Models.Services
             return hotel;
         }
 
+        /// <summary>
+        /// gets all the hotels
+        /// </summary>
+        /// <returns>task completion</returns>
         public async Task<List<Hotel>> GetHotels()
         {
            var hotel =  await _context.Hotels.ToListAsync();
             return hotel;
         }
 
+        /// <summary>
+        /// updates the hotel
+        /// </summary>
+        /// <param name="hotel">hotel identifier</param>
+        /// <returns>task completion</returns>
         public async Task<Hotel> Update( Hotel hotel)
         {
             _context.Entry(hotel).State = EntityState.Modified;

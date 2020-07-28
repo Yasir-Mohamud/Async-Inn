@@ -45,7 +45,7 @@ namespace async_inn.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRoom(int id, Room room)
         {
-          if(id != room.Id)
+            if (id != room.Id)
             {
                 return BadRequest();
             }
@@ -64,19 +64,21 @@ namespace async_inn.Controllers
             return CreatedAtAction("GetRoom", new { id = room.Id }, room);
         }
 
+        //Post 
         [HttpPost]
         [Route("{roomId}/{amenityId}")]
-        public async Task<IActionResult> AddRoomAmenity (int roomId, int amenityId)
+        // Mode Binding
+        public async Task<IActionResult> AddAmenityToRoom(int roomId, int amenityId)
         {
-            await _room.AddRoomAmenity(roomId, amenityId);
+            await _room.AddAmenityToRoom(roomId, amenityId);
             return Ok();
         }
 
         [HttpDelete]
         [Route("{roomId}/{amenityId}")]
-        public async Task<IActionResult> RemoveStudentFromCourse(int roomId, int amenityId)
+        public async Task<IActionResult> RemoveAmenityFromRome(int roomId, int amenityId)
         {
-            await _room.RemoveRoomAmenity(roomId, amenityId);
+            await _room.RemoveAmenityFromRoom(roomId, amenityId);
             return Ok();
         }
 

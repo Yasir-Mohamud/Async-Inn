@@ -7,19 +7,39 @@ namespace async_inn.Models.Interfaces
 {
     public interface IHotel
     {
-        // create
+
+        /// <summary>
+        /// Creates hotel 
+        /// </summary>
+        /// <param name="hotel"> hotel object </param>
+        /// <returns> task completion </returns>
         Task<Hotel> Create(Hotel hotel);
 
-        //Get all
-       Task<List<Hotel>> GetHotels();
+        /// <summary>
+        /// gets all the hotels
+        /// </summary>
+        /// <returns>task completion</returns>
+        Task<List<Hotel>> GetHotels();
 
-        //Gets indiviually by id
-       Task<Hotel> GetHotel(int id);
+        /// <summary>
+        /// gets a single hotel
+        /// </summary>
+        /// <param name="id">hotel identifier</param>
+        /// <returns>task completion </returns>
+        Task<Hotel> GetHotel(int id);
 
-        //Updates
+        /// <summary>
+        /// updates the hotel
+        /// </summary>
+        /// <param name="hotel">hotel identifier</param>
+        /// <returns>task completion</returns>
         Task<Hotel> Update(Hotel hotel);
 
-        //DELETES
+        /// <summary>
+        /// Deletes an hotel
+        /// </summary>
+        /// <param name="id">hotel identifier</param>
+        /// <returns>task completion</returns>
         Task Delete(int id);
     }
 }

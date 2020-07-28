@@ -14,8 +14,12 @@ namespace async_inn.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Tells DB that HotelRoom has a combination composite key of HotelID and RoomNumber
             modelBuilder.Entity<HotelRoom>().HasKey(x => new { x.HotelId, x.RoomNumber });
+            // Tells DB that RoomAmenity has a combination composite key of RoomID and AmenityId
             modelBuilder.Entity<RoomAmenity>().HasKey(x => new { x.RoomId, x.AmenityId });
+
+            // SEEDING DATA INTO THE DATABASE
             modelBuilder.Entity<Hotel>().HasData(
                 new Hotel
                 {
@@ -51,19 +55,19 @@ namespace async_inn.Data
                 {
                     Id = 1,
                     Name = "Amaterasu",
-                    Layout = 1,
+                    Layout = Layout.studio,
                 },
                  new Room
                  {
                      Id = 2,
                      Name = "Sweet Tea",
-                     Layout = 2,
+                     Layout = Layout.oneBedroom,
                  },
                   new Room
                   {
                       Id = 3,
                       Name = "Habibi",
-                      Layout = 3,
+                      Layout = Layout.twoBedroom,
                   }
                 );
 
@@ -85,6 +89,36 @@ namespace async_inn.Data
                       Name = "Pool",
                   }
                 );
+
+            modelBuilder.Entity<HotelRoom>().HasData(
+                new HotelRoom
+                {
+                    HotelId = 1,
+                    RoomId = 1,
+                    RoomNumber = 1,
+                    Rate = 100m,
+                    PetFriendly = true,
+
+                },
+                 new HotelRoom
+                 {
+                     HotelId = 2,
+                     RoomId = 2,
+                     RoomNumber = 2,
+                     Rate = 10m,
+                     PetFriendly = false,
+
+                 },
+                  new HotelRoom
+                  {
+                      HotelId = 3,
+                      RoomId = 3,
+                      RoomNumber = 1,
+                      Rate = 200m,
+                      PetFriendly = true,
+
+                  }
+                );
         }
 
         // to create an intial migration
@@ -97,6 +131,6 @@ namespace async_inn.Data
         public DbSet<Amenity> Amenities { get; set; }
         public DbSet<RoomAmenity> RoomAmenities { get; set; }
         public DbSet<HotelRoom> HotelRooms { get; set; }
-
+    
     }
 }
