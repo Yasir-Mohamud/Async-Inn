@@ -14,20 +14,20 @@ namespace async_inn.Models.Interfaces
         /// </summary>
         /// <param name="amenity">amenity object </param>
         /// <returns>task completion</returns>
-        Task<Amenity> Create(Amenity amenity);
+        Task<AmenityDTO> Create(AmenityDTO amenity);
 
         /// <summary>
         /// Gets all the amenities
         /// </summary>
         /// <returns> list of amenities </returns>
-        Task<List<Amenity>> GetAmenities();
+        Task<List<AmenityDTO>> GetAmenities();
 
         /// <summary>
         /// Gets a single amenity by id
         /// </summary>
         /// <param name="id">amenity identifier</param>
         /// <returns>task completion</returns>
-        Task<Amenity> GetAmenity(int id);
+        Task<AmenityDTO> GetAmenity(int id);
 
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace async_inn.Models.Interfaces
         /// </summary>
         /// <param name="amenity"> amenity object</param>
         /// <returns>task completion </returns>
-        Task<Amenity> Update(Amenity amenity);
+        Task<AmenityDTO> Update(AmenityDTO amenity);
 
        
         /// <summary>

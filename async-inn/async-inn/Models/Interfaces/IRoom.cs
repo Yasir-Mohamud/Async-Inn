@@ -1,4 +1,5 @@
-﻿using System;
+﻿using async_inn.Models.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,27 +13,27 @@ namespace async_inn.Models.Interfaces
         /// </summary>
         /// <param name="room"> room object</param>
         /// <returns> task completion </returns>
-        Task<Room> Create(Room room);
+        Task<RoomDTO> Create(RoomDTO room);
 
         /// <summary>
         /// Gets all the rooms
         /// </summary>
         /// <returns> List of all rooms</returns>
-        Task<List<Room>> GetRooms();
+        Task<List<RoomDTO>> GetRooms();
 
         /// <summary>
         /// Gets a single room
         /// </summary>
         /// <param name="id"> room identifier</param>
         /// <returns> The room with all its amenities</returns>
-        Task<Room> GetRoom(int id);
+        Task<RoomDTO> GetRoom(int id);
 
         /// <summary>
         /// Updates room
         /// </summary>
         /// <param name="room"> room object</param>
         /// <returns>the updated room object</returns>
-        Task<Room> Update(Room room);
+        Task<RoomDTO> Update(RoomDTO room);
 
         /// <summary>
         /// Deletes selected room
