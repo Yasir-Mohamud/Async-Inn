@@ -12,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using async_inn.Models.Services;
 using async_inn.Models.Interfaces;
+using async_inn.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace async_inn
 {
@@ -49,7 +51,10 @@ namespace async_inn
                 // connection string contains the location, username, pw of your sql server...with our sql database directly.
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-
+            // Register indentity
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<AsyncInnDbContext>()
+                .AddDefaultTokenProviders();
             //Register dependence injection services
             services.AddTransient<IHotel,HotelRepository>();
             services.AddTransient<IRoom, RoomRepository>();

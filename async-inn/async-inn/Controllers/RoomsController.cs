@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using async_inn.Data;
 using async_inn.Models;
 using async_inn.Models.Interfaces;
+using async_inn.Models.DTOs;
 
 namespace async_inn.Controllers
 {
@@ -26,30 +27,30 @@ namespace async_inn.Controllers
 
         // GET: api/Rooms
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Room>>> GetRooms()
+        public async Task<ActionResult<IEnumerable<RoomDTO>>> GetRooms()
         {
             return await _room.GetRooms();
         }
 
         // GET: api/Rooms/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Room>> GetRoom(int id)
+        public async Task<ActionResult<RoomDTO>> GetRoom(int id)
         {
-            Room room = await _room.GetRoom(id);
-            return room;
+            RoomDTO roomdto = await _room.GetRoom(id);
+            return roomdto;
         }
 
         // PUT: api/Rooms/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRoom(int id, Room room)
+        public async Task<IActionResult> PutRoom(int id, RoomDTO roomdto)
         {
-            if (id != room.Id)
+            if (id != roomdto.Id)
             {
                 return BadRequest();
             }
-            var updatedRoom = await _room.Update(room);
+            var updatedRoom = await _room.Update(roomdto);
 
             return Ok(updatedRoom);
         }
@@ -58,10 +59,10 @@ namespace async_inn.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Room>> PostRoom(Room room)
+        public async Task<ActionResult<Room>> PostRoom(RoomDTO roomdto)
         {
-            await _room.Create(room);
-            return CreatedAtAction("GetRoom", new { id = room.Id }, room);
+            await _room.Create(roomdto);
+            return CreatedAtAction("GetRoom", new { id = roomdto.Id }, roomdto);
         }
 
         //Post 
