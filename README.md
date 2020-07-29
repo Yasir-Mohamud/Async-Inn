@@ -68,7 +68,8 @@ Double click on the ```Async-Inn``` directory.
 ---
 
 ### Change Log
-1.4 * Adding join tables and navigation properties* - July 27,2020
+1.5 *Adding login authentication and authorization* - July 28, 2020
+1.4 *Adding join tables and navigation properties* - July 27,2020
 1.3 *dependency injection* - July 22,2020
 1.2 *Adds ASP.NET web application* - July 21,2020
 1.1: *Added README* - July 20,2020  
