@@ -36,7 +36,7 @@ namespace async_inn.Models.Interfaces
         /// </summary>
         /// <param name="hotelRoom"> the hotel room object </param>
         /// <returns> task completion </returns>
-        Task Update(HotelRoomDTO hotelRoom);
+        Task<HotelRoomDTO> Update(HotelRoomDTO hotelRoom);
 
         /// <summary>
         /// Deletes selected room
