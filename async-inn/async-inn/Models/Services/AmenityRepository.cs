@@ -24,19 +24,19 @@ namespace async_inn.Models.Services
         /// </summary>
         /// <param name="amenity">amenity object </param>
         /// <returns>task completion</returns>
-        public async Task<AmenityDTO> Create(AmenityDTO amenity)
+        public async Task<AmenityDTO> Create(AmenityDTO amenitydto)
         {
             // convert amenityDTO to an entity
 
             Amenity entity = new Amenity()
             {
-                Name = amenity.Name
+                Name = amenitydto.Name
             };
 
             _context.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Added;
             // Saves Changes
             await _context.SaveChangesAsync();
-            return amenity;
+            return amenitydto;
         }
 
         /// <summary>
@@ -60,12 +60,12 @@ namespace async_inn.Models.Services
         public async Task<List<AmenityDTO>> GetAmenities()
         {
             var list = await _context.Amenities.ToListAsync();
-            var amenities = new List<AmenityDTO>();
+            var amenitiesdto = new List<AmenityDTO>();
             foreach (var item in list)
             {
-                amenities.Add(await GetAmenity(item.Id));
+                amenitiesdto.Add(await GetAmenity(item.Id));
             }
-            return amenities;
+            return amenitiesdto;
         }
 
         /// <summary>
@@ -79,14 +79,14 @@ namespace async_inn.Models.Services
             /*      var roomAmenities = await _context.RoomAmenities.Where(x => x.AmenityId == id)
                                                                   .Include(x => x.room)
                                                                   .ToListAsync();*/
-            AmenityDTO dto = new AmenityDTO()
+            AmenityDTO amenitydto = new AmenityDTO()
             {
                 Id = amenity.Id,
                 Name = amenity.Name,
 
             };
 
-            return dto;
+            return amenitydto;
         }
 
         /// <summary>
@@ -94,17 +94,17 @@ namespace async_inn.Models.Services
         /// </summary>
         /// <param name="amenity"> amenity object</param>
         /// <returns>task completion </returns>
-        public async Task<AmenityDTO> Update(AmenityDTO amenity)
+        public async Task<AmenityDTO> Update(AmenityDTO amenitydto)
         {
             // change amenityDTO to entity
             Amenity entity = new Amenity()
             {
-                Name = amenity.Name
+                Name = amenitydto.Name
             };
             _context.Entry(entity).State = EntityState.Modified;
             // Save changes
             await _context.SaveChangesAsync();
-            return amenity;
+            return amenitydto;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace async_inn.Models.Interfaces
         /// </summary>
         /// <param name="room"> room object</param>
         /// <returns> task completion </returns>
-        Task<RoomDTO> Create(RoomDTO room);
+        Task<RoomDTO> Create(RoomDTO roomdto);
 
         /// <summary>
         /// Gets all the rooms
@@ -33,7 +33,7 @@ namespace async_inn.Models.Interfaces
         /// </summary>
         /// <param name="room"> room object</param>
         /// <returns>the updated room object</returns>
-        Task<RoomDTO> Update(RoomDTO room);
+        Task<RoomDTO> Update(RoomDTO roomdto);
 
         /// <summary>
         /// Deletes selected room

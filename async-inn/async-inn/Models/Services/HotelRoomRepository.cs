@@ -65,7 +65,6 @@ namespace async_inn.Models.Services
         public async Task<HotelRoomDTO> GetHotelRoom(int hotelId, int roomNumber)
         {
             HotelRoom hotelRoom = await _context.HotelRooms.Where(x => x.HotelId == hotelId && x.RoomNumber == roomNumber)
-                                                     .Include(x => x.hotel)
                                                      .Include(x => x.room)
                                                      .ThenInclude(x => x.RoomAmenities )
                                                      .ThenInclude(x => x.amenity)
@@ -91,10 +90,19 @@ namespace async_inn.Models.Services
         /// </summary>
         /// <param name="hotelRoom"> the hotel room object </param>
         /// <returns> task completion </returns>
-        public async Task Update(HotelRoomDTO hotelRoom)
+        public async Task<HotelRoomDTO> Update(HotelRoomDTO hotelRoom)
         {
-            _context.Entry(hotelRoom).State = EntityState.Modified;
+            HotelRoom room = new HotelRoom()
+            {
+                HotelId = hotelRoom.HotelId,
+                RoomNumber = hotelRoom.RoomNumber,
+                Rate = hotelRoom.Rate,
+                PetFriendly = hotelRoom.PetFriendly,
+                RoomId = hotelRoom.RoomId
+            };
+            _context.Entry(room).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+            return hotelRoom;
         }
 
         /// <summary>

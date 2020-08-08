@@ -50,7 +50,7 @@ namespace async_inn.Controllers
             {
                 return BadRequest();
             }
-            var updatedRoom = await _room.Update(roomdto);
+           var updatedRoom = await _room.Update(roomdto);
 
             return Ok(updatedRoom);
         }

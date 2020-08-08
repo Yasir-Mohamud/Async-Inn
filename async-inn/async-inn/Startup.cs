@@ -14,6 +14,9 @@ using async_inn.Models.Services;
 using async_inn.Models.Interfaces;
 using async_inn.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace async_inn
 {
@@ -55,6 +58,32 @@ namespace async_inn
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<AsyncInnDbContext>()
                 .AddDefaultTokenProviders();
+
+            // Add authentication
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+
+                //ADD POLICIES
+          /*  services.AddAuthorization(options =>
+               {
+                   options.AddPolicy("PrincipalOnly", policy => policy.RequireRole(ApplicationRoles.Principal));
+               });*/
+            .AddJwtBearer(options =>
+             {
+                 options.TokenValidationParameters = new TokenValidationParameters
+                 {
+                     ValidateIssuer = true,
+                     ValidateAudience = false,
+                     ValidateLifetime = true,
+                     ValidateIssuerSigningKey = true,
+                     ValidIssuer = Configuration["JWTIssuer"],
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWTKey"]))
+                 };
+             }); ;
             //Register dependence injection services
             services.AddTransient<IHotel,HotelRepository>();
             services.AddTransient<IRoom, RoomRepository>();
@@ -63,7 +92,7 @@ namespace async_inn
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -71,6 +100,11 @@ namespace async_inn
             }
 
             app.UseRouting();
+            /// Authentication has to come first
+            app.UseAuthentication();
+            app.UseAuthorization();
+          
+            RoleIntiliazer.SeedData(serviceProvider);
 
             app.UseEndpoints(endpoints =>
             {

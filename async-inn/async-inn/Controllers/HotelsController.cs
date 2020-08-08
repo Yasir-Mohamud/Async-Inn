@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using async_inn.Data;
 using async_inn.Models;
 using async_inn.Models.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using async_inn.Models.DTOs;
 
 namespace async_inn.Controllers
 {
+   
     [Route("api/[controller]")]
     [ApiController]
 
@@ -26,17 +29,18 @@ namespace async_inn.Controllers
 
         // GET: api/Hotels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Hotel>>> GetHotels()
+        public async Task<ActionResult<IEnumerable<HotelDTO>>> GetHotels()
         {
-            return await _hotel.GetHotels();
+            return  await _hotel.GetHotels();
+            
         }
 
         // GET: api/Hotels/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Hotel>> GetHotel(int id)
+        public async Task<ActionResult<HotelDTO>> GetHotel(int id)
         {
-            Hotel hotel = await _hotel.GetHotel(id);
-            return hotel;
+            return await _hotel.GetHotel(id);
+            
 
         }
 
@@ -44,14 +48,14 @@ namespace async_inn.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutHotel(int id, Hotel hotel)
+        public async Task<IActionResult> PutHotel(int id, HotelDTO hoteldto)
         {
-            if (id != hotel.Id)
+            if (id != hoteldto.Id)
             {
                 return BadRequest();
             }
 
-            var updatedHotel = await _hotel.Update(hotel);
+            var updatedHotel = await _hotel.Update(hoteldto);
             return Ok(updatedHotel);
         }
 
@@ -59,11 +63,11 @@ namespace async_inn.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Hotel>> PostHotel(Hotel hotel)
+        public async Task<ActionResult<HotelDTO>> PostHotel(HotelDTO hoteldto)
         {
-            await _hotel.Create(hotel);
+            await _hotel.Create(hoteldto);
 
-            return CreatedAtAction("GetHotel", new { id = hotel.Id }, hotel);
+            return CreatedAtAction("GetHotel", new { id = hoteldto.Id }, hoteldto);
         }
 
         // DELETE: api/Hotels/5

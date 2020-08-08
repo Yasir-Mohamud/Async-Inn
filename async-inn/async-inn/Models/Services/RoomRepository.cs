@@ -27,13 +27,23 @@ namespace async_inn.Models.Services
         /// </summary>
         /// <param name="room"> room object</param>
         /// <returns> task completion </returns>
-        public async Task<RoomDTO> Create(RoomDTO room)
+        public async Task<RoomDTO> Create(RoomDTO roomdto)
         {
+            // convert dto to entity
+            Enum.TryParse(roomdto.Layout, out Layout layout);
+            Room room = new Room()
+            {
+                Name = roomdto.Name,
+                Layout = layout,
+            };
+                
             // adds to the database
             _context.Entry(room).State = Microsoft.EntityFrameworkCore.EntityState.Added;
             // saves it on the db and the associated with an id
             await _context.SaveChangesAsync();
-            return room;
+
+            roomdto.Id = room.Id;
+            return roomdto;
         }
 
 
@@ -71,15 +81,6 @@ namespace async_inn.Models.Services
              };
            
             dto.Amenities = new List<AmenityDTO>();
-            /*  foreach (var item in roomAmenities)
-              {
-                  AmenityDTO amenitydto = new AmenityDTO()
-                  {
-                      Id = item.amenity.Id,
-                      Name = item.amenity.Name
-                  };
-                  dto.Amenities.Add(amenitydto);
-              }*/
             foreach (var item in roomAmenities)
             {
                 dto.Amenities.Add(await _amenity.GetAmenity(item.amenity.Id));
@@ -113,11 +114,21 @@ namespace async_inn.Models.Services
         /// </summary>
         /// <param name="room"> room object</param>
         /// <returns>the updated room object</returns>
-        public async Task<RoomDTO> Update(RoomDTO room)
+        public async Task<RoomDTO> Update( RoomDTO roomdto)
         {
+            // convert the roomDTO to a room entity
+            Enum.TryParse(roomdto.Layout, out Layout layout);
+
+            Room room = new Room()
+            {
+                Id = roomdto.Id,
+                Layout = layout,
+                Name = roomdto.Name,
+                
+            };
             _context.Entry(room).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-            return room;
+            return roomdto;
         }
 
         /// <summary>
