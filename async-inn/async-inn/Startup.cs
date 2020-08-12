@@ -68,10 +68,12 @@ namespace async_inn
             })
 
                 //ADD POLICIES
-          /*  services.AddAuthorization(options =>
-               {
-                   options.AddPolicy("PrincipalOnly", policy => policy.RequireRole(ApplicationRoles.Principal));
-               });*/
+            services.AddAuthorization(options =>
+                {
+                    options.AddPolicy("MaxPrivileges", policy => policy.RequireRole(ApplicationRoles.DistrictManager));
+                    options.AddPolicy("ElevatedPrivileges", policy => policy.RequireRole(ApplicationRoles.DistrictManager, ApplicationRoles.PropertyManager));
+                    options.AddPolicy("NormalPrivileges", policy => policy.RequireRole(ApplicationRoles.DistrictManager, ApplicationRoles.PropertyManager, ApplicationRoles.CustomerAgent));
+                });
             .AddJwtBearer(options =>
              {
                  options.TokenValidationParameters = new TokenValidationParameters
