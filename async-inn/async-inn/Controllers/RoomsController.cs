@@ -9,6 +9,7 @@ using async_inn.Data;
 using async_inn.Models;
 using async_inn.Models.Interfaces;
 using async_inn.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace async_inn.Controllers
 {
@@ -27,6 +28,7 @@ namespace async_inn.Controllers
 
         // GET: api/Rooms
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<RoomDTO>>> GetRooms()
         {
             return await _room.GetRooms();
@@ -34,6 +36,7 @@ namespace async_inn.Controllers
 
         // GET: api/Rooms/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<RoomDTO>> GetRoom(int id)
         {
             RoomDTO roomdto = await _room.GetRoom(id);

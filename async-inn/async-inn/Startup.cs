@@ -67,13 +67,7 @@ namespace async_inn
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             })
 
-                //ADD POLICIES
-            services.AddAuthorization(options =>
-                {
-                    options.AddPolicy("MaxPrivileges", policy => policy.RequireRole(ApplicationRoles.DistrictManager));
-                    options.AddPolicy("ElevatedPrivileges", policy => policy.RequireRole(ApplicationRoles.DistrictManager, ApplicationRoles.PropertyManager));
-                    options.AddPolicy("NormalPrivileges", policy => policy.RequireRole(ApplicationRoles.DistrictManager, ApplicationRoles.PropertyManager, ApplicationRoles.CustomerAgent));
-                });
+
             .AddJwtBearer(options =>
              {
                  options.TokenValidationParameters = new TokenValidationParameters
@@ -85,9 +79,17 @@ namespace async_inn
                      ValidIssuer = Configuration["JWTIssuer"],
                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWTKey"]))
                  };
-             }); ;
+             });
+
+                   //ADD POLICIES
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("HighPrivileges", policy => policy.RequireRole(ApplicationRoles.DistrictManager));
+                options.AddPolicy("MediumPrivileges", policy => policy.RequireRole(ApplicationRoles.DistrictManager, ApplicationRoles.PropertyManager));
+                options.AddPolicy("NormalPrivileges", policy => policy.RequireRole(ApplicationRoles.DistrictManager, ApplicationRoles.PropertyManager, ApplicationRoles.Agent));
+            });
             //Register dependence injection services
-            services.AddTransient<IHotel,HotelRepository>();
+            services.AddTransient<IHotel, HotelRepository>();
             services.AddTransient<IRoom, RoomRepository>();
             services.AddTransient<IAmenity, AmenityRepository>();
             services.AddTransient<IHotelRoom, HotelRoomRepository>();
@@ -105,7 +107,7 @@ namespace async_inn
             /// Authentication has to come first
             app.UseAuthentication();
             app.UseAuthorization();
-          
+
             RoleIntiliazer.SeedData(serviceProvider);
 
             app.UseEndpoints(endpoints =>

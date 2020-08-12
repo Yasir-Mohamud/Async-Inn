@@ -29,6 +29,7 @@ namespace async_inn.Controllers
 
         // GET: api/Hotels
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<HotelDTO>>> GetHotels()
         {
             return  await _hotel.GetHotels();
@@ -37,6 +38,7 @@ namespace async_inn.Controllers
 
         // GET: api/Hotels/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<HotelDTO>> GetHotel(int id)
         {
             return await _hotel.GetHotel(id);
