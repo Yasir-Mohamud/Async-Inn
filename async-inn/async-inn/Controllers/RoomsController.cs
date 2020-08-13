@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace async_inn.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
 
@@ -47,6 +48,8 @@ namespace async_inn.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [Authorize(Policy = "MediumPrivileges")]
+
         public async Task<IActionResult> PutRoom(int id, RoomDTO roomdto)
         {
             if (id != roomdto.Id)
@@ -62,6 +65,7 @@ namespace async_inn.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Authorize(Policy = "HighPrivileges")]
         public async Task<ActionResult<Room>> PostRoom(RoomDTO roomdto)
         {
             await _room.Create(roomdto);
@@ -72,6 +76,7 @@ namespace async_inn.Controllers
         [HttpPost]
         [Route("{roomId}/{amenityId}")]
         // Mode Binding
+        [Authorize(Policy = "NormalPrivileges")]
         public async Task<IActionResult> AddAmenityToRoom(int roomId, int amenityId)
         {
             await _room.AddAmenityToRoom(roomId, amenityId);
@@ -80,6 +85,7 @@ namespace async_inn.Controllers
 
         [HttpDelete]
         [Route("{roomId}/{amenityId}")]
+        [Authorize(Policy = "NormalPrivileges")]
         public async Task<IActionResult> RemoveAmenityFromRome(int roomId, int amenityId)
         {
             await _room.RemoveAmenityFromRoom(roomId, amenityId);
@@ -88,6 +94,7 @@ namespace async_inn.Controllers
 
         // DELETE: api/Rooms/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "HighPrivileges")]
         public async Task<ActionResult<Room>> DeleteRoom(int id)
         {
             await _room.Delete(id);

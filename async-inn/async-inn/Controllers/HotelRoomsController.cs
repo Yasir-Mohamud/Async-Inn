@@ -13,8 +13,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace async_inn.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = "MediumPrivileges")]
     public class HotelRoomsController : ControllerBase
     {
         private readonly IHotelRoom _hotelRoom;
@@ -52,6 +54,7 @@ namespace async_inn.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("/api/Hotels/{hotelId}/Rooms/{roomNumber}")]
+        [Authorize(Policy = "NormalPrivileges")]
         public async Task<IActionResult> PutHotelRoom(int hotelId, int roomNumber, HotelRoomDTO hotelRoomdto)
         {
             if(hotelId != hotelRoomdto.HotelId || roomNumber != hotelRoomdto.RoomNumber)
@@ -67,6 +70,7 @@ namespace async_inn.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost, Route ("/api/Hotels/{hotelId}/Rooms")]
+        [Authorize(Policy = "MediumPrivileges")]
         public async Task<ActionResult<HotelRoomDTO>> PostHotelRoom(HotelRoomDTO hotelRoom, int hotelId)
         {
             await _hotelRoom.Create(hotelRoom, hotelId);
@@ -76,6 +80,8 @@ namespace async_inn.Controllers
 
         // DELETE: api/HotelRooms/5
         [HttpDelete("/api/Hotels/{hotelId}/Rooms/{roomNumber}")]
+        [Authorize(Policy = "HighPrivileges")]
+
         public async Task<ActionResult<HotelRoom>> DeleteHotelRoom(int hotelId, int roomNumber)
         {
             await _hotelRoom.Delete(hotelId, roomNumber);
