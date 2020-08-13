@@ -35,6 +35,7 @@ namespace async_inn.Controllers
         // api/account/register
         
         [HttpPost, Route("register")]
+        [Authorize(Policy= "MediumPrivileges")]
         public async Task<IActionResult> Register(RegisterDTO register)
         {
             ApplicationUser user = new ApplicationUser()
@@ -50,9 +51,9 @@ namespace async_inn.Controllers
 
             if(result.Succeeded)
             {
-                if(user.Email == _config["DistrictManagerSeed"])
+                if (User.IsInRole("Property Manager") && register.Role != "Agent")
                 {
-                    await _userManager.AddToRoleAsync(user, register.Password);
+                    return BadRequest("You are not authorized to do that");
                 }
                 // sign the user in if successful
                 await _signInManager.SignInAsync(user, false);
@@ -82,6 +83,18 @@ namespace async_inn.Controllers
             }
             return BadRequest("Invalid Attempt");
         }
+
+        // assign roles
+        // POST: api/assign/role
+        [HttpPost("assign/role")]
+        [Authorize(Policy="HighPrivileges")]
+        public async Task AssignRoleToUser(AssignRoleDTO assignment)
+        {
+            var user = await _userManager.FindByEmailAsync(assignment.Email);
+
+            await _userManager.AddToRoleAsync(user, assignment.Role);
+        }
+     
         // create new token
         private JwtSecurityToken CreateToken(ApplicationUser user)
         {

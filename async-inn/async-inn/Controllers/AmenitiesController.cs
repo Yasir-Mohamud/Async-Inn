@@ -9,11 +9,14 @@ using async_inn.Data;
 using async_inn.Models;
 using async_inn.Models.Interfaces;
 using async_inn.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace async_inn.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = "NormalPrivileges")]
     public class AmenitiesController : ControllerBase
     {
         private readonly IAmenity _amenity;
@@ -27,6 +30,7 @@ namespace async_inn.Controllers
 
         // GET: api/Amenities
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<AmenityDTO>>> GetAmenities()
         {
             return await _amenity.GetAmenities();
@@ -34,6 +38,7 @@ namespace async_inn.Controllers
 
         // GET: api/Amenities/5
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<AmenityDTO>> GetAmenity(int id)
         {
             var amenity = await _amenity.GetAmenity(id);
@@ -51,6 +56,7 @@ namespace async_inn.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
+        [Authorize(Policy = "HighPrivileges")]
         public async Task<IActionResult> PutAmenity(int id, Amenity amenity)
         {
             if (id != amenity.Id)
@@ -85,6 +91,7 @@ namespace async_inn.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [Authorize(Policy = "HighPrivileges")]
         public async Task<ActionResult<Amenity>> PostAmenity(AmenityDTO amenity)
         {
             await _amenity.Create(amenity);
@@ -93,6 +100,7 @@ namespace async_inn.Controllers
 
         // DELETE: api/Amenities/5
         [HttpDelete("{id}")]
+        [Authorize(Policy = "HighPrivileges")]
         public async Task<ActionResult<AmenityDTO>> DeleteAmenity(int id)
         {
             var amenities = await _amenity.GetAmenity(id);
