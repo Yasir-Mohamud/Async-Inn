@@ -99,6 +99,7 @@ namespace async_inn.Models.Services
             // change amenityDTO to entity
             Amenity entity = new Amenity()
             {
+                Id = amenitydto.Id,
                 Name = amenitydto.Name
             };
             _context.Entry(entity).State = EntityState.Modified;
