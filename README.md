@@ -68,6 +68,8 @@ Double click on the ```Async-Inn``` directory.
 ---
 
 ### Change Log
+1.7 *Adds Unit tests* August 12,2020
+1.6 *Adds Policies* August 12, 2020
 1.5 *Adding login authentication and authorization* - July 28, 2020
 1.4 *Adding join tables and navigation properties* - July 27,2020
 1.3 *dependency injection* - July 22,2020
